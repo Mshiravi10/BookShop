@@ -1,0 +1,120 @@
+﻿@model BookShop.Models.ViewModels.ProductVM
+
+<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+    <input asp-for="product.Id" hidden />
+    <input asp-for="product.ImageUrl" hidden />
+    <div class="row">
+        <div class="col-10">
+
+            <fieldset>
+                <div class="container border p-3 mt-4 row">
+                    <div class="row pb-2">
+                        <h2 class="text-primary">@(Model.product.Id != 0 ? "Update" : "Create") Product</h2>
+                        <hr />
+                    </div>
+                    <div asp-validation-summary="All"></div>
+                    <div class="form-group">
+                        <label asp-for="product.Title" class="form-label mt-4"></label>
+                        <input asp-for="product.Title" class="form-control" placeholder="Enter Title">
+                        <span asp-validation-for="product.Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="product.Description" class="form-label mt-4"></label>
+                        <textarea asp-for="product.Description" class="form-control" placeholder="Enter Description"></textarea>
+                        <span asp-validation-for="product.Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-6">
+                        <label asp-for="product.ISBN" class="form-label mt-4"></label>
+                        <input asp-for="product.ISBN" class="form-control" placeholder="Enter ISBN">
+                        <span asp-validation-for="product.ISBN" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-6">
+                        <label asp-for="product.Author" class="form-label mt-4"></label>
+                        <input asp-for="product.Author" class="form-control" placeholder="Enter Author">
+                        <span asp-validation-for="product.Author" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-6">
+                        <label asp-for="product.ListPrice" class="form-label mt-4"></label>
+                        <input asp-for="product.ListPrice" class="form-control" placeholder="Enter ListPrice">
+                        <span asp-validation-for="product.ListPrice" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-6">
+                        <label asp-for="product.Price" class="form-label mt-4"></label>
+                        <input asp-for="product.Price" class="form-control" placeholder="Enter Price">
+                        <span asp-validation-for="product.Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-6">
+                        <label asp-for="product.Price50" class="form-label mt-4"></label>
+                        <input asp-for="product.Price50" class="form-control" placeholder="Enter Price50">
+                        <span asp-validation-for="product.Price50" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-6 ">
+                        <label asp-for="product.Price100" class="form-label mt-4"></label>
+                        <input asp-for="product.Price100" class="form-control" placeholder="Enter Price100">
+                        <span asp-validation-for="product.Price100" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="product.ImageUrl" class="form-label mt-4"></label>
+                        <input type="file" id="uploadBox" name="file" class="form-control" placeholder="Enter Price100">
+                    </div>
+
+                    @*            viewbag and viewdata for showing content from controller*@
+                    <div class="form-group">
+                        <label asp-for="product.CategoryId" class="form-label mt-4"></label>
+                        <select asp-for="product.CategoryId" asp-items="@Model.CategoryList" class="form-select">
+                            <option disabled selected>--select category--</option>
+                        </select>
+                        <span asp-validation-for="product.CategoryId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="product.CoverTypeId" class="form-label mt-4"></label>
+                        <select asp-for="product.CoverTypeId" asp-items="@Model.CoverTypeList" class="form-select">
+                            <option disabled selected>--select cover type--</option>
+                        </select>
+                        <span asp-validation-for="product.CoverTypeId" class="text-danger"></span>
+                    </div>
+
+                    <br />
+                    @if (Model.product.Id != 0)
+                    {
+                        <button type="submit" class="btn btn-success" style="width:150px">Update</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-success" onclick="return ValidateInput()" style="width:150px">Create</button>
+                    }
+                    <a class="btn btn-warning" style="width:200px" asp-controller="CoverType" asp-action="Index">Back to Product List</a>
+                </div>
+
+            </fieldset>
+
+        </div>
+        <div class="col-2">
+            <img src="@Model.product.ImageUrl"
+                 width="100%" style="border-radius:5px;border:1px solid;" />
+        </div>
+    </div>
+
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        function ValidateInput() {
+            if (document.getElementById("uploadBox").value == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: "You didn't Enter the Image!",
+                })
+                return false
+            }
+            return true
+        }
+    </script>
+}
+
+
+
